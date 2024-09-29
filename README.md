@@ -1,5 +1,5 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME : Vinitha D</H3>
+<H3>ENTER YOUR REGISTER NO. : 212222230175 </H3>
 <H3>EX. NO.4</H3>
 <H3>DATE:</H3>
 <H1 ALIGN =CENTER> Implementation of Hidden Markov Model</H1>
@@ -21,11 +21,46 @@ Step 8:Calculate the probability of the observed sequence by summing the last ro
 Step 9:Find the most likely sequence of hidden states by selecting the hidden state with the highest probability at each time step based on the alpha matrix.<br>
 
 ## Program:
-Insert your Program here
+```
+import numpy as np
+t_m = np.array([[0.7,0.3],
+                [0.4, 0.6]])
+e_m = np.array([[0.1,0.9],
+                [0.8,0.2]])
+i_p = np.array([0.5,0.5])
 
+o_s = np.array([1,1,1,0,0,1])
+
+alpha = np.zeros((len(o_s),len(i_p)))
+
+alpha[0, :] = i_p * e_m[:, o_s[0]]
+
+for t in range(1, len(o_s)):
+
+  for j in range(len(i_p)):
+
+    alpha[t, j ] = e_m[j,o_s[t]] * np.sum(alpha[t-1, :] * t_m[:, j ])
+
+prob = np.sum(alpha[-1, :])
+
+print("The Probability of the observed sequence is :",prob)
+
+m_l_s = []
+for t in range(len(o_s)):
+  if alpha[t, 0] > alpha[t,1]:
+    m_l_s.append("sunny")
+  else:
+    m_l_s.append("rainy")  
+
+print("Thye most likely sequence of weather states is :",m_l_s)
+
+```
 ## Output:
-Show your results here
+![image](https://github.com/user-attachments/assets/492db564-db77-4a7e-9d6e-426cf3737acd)
+![image](https://github.com/user-attachments/assets/7ff3a179-39ea-4479-9604-ed4e3a7fd129)
+
+
+
 
 ## Result:
 Thus Hidden Markov Model is implemented using python.
-
